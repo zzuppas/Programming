@@ -1,0 +1,6 @@
+# Compile
+javac Example/Hello.java
+
+# Run
+java Example.Hello
+
