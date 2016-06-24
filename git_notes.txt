@@ -24,4 +24,5 @@ https://try.github.io/
 
 git remote show origin
 git fetch origin
+git checkout -b branch_name
 
