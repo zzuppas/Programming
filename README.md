@@ -1,4 +1,4 @@
 # Programming
 
-Programming is like riding a bicycle. Just try not to crash it.
+Programming is like riding a bicycle; Just try not to crash it.
 
