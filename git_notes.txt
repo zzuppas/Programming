@@ -23,5 +23,5 @@ git push
 https://try.github.io/
 
 git remote show origin
-
+git fetch origin
 
