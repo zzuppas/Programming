@@ -25,4 +25,6 @@ https://try.github.io/
 git remote show origin
 git fetch origin
 git checkout -b branch_name
+git clone https://github.com/zzuppas/Programming.git
+git clone https://github.com/zzuppas/Programming.git Programming
 
