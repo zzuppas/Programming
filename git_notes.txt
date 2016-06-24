@@ -1,0 +1,27 @@
+git init
+git status
+git add filename.txt
+git commit -m "A message"
+git add '*.txt'
+git log
+git remote add origin https://github.com/zzuppas/Programming.git
+git remote add origin git@github.com:zzuppas/Programming.git
+git push -u origin master
+git pull origin master
+git diff HEAD
+git diff --staged
+git reset filename.txt
+git checkout -- octocat.txt
+git branch branch_name
+git checkout branch_name
+git rm '*.txt'
+git checkout master
+git merge branch_name
+git branch -d branch_name
+git push
+
+https://try.github.io/
+
+git remote show origin
+
+
