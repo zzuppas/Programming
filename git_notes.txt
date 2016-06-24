@@ -33,4 +33,5 @@ git config --global user.email email@address.net
 git config user.name
 git log --graph
 git rebase master
+git status -s
 
