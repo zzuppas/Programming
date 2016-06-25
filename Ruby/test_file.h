@@ -5,4 +5,24 @@
 // Description: fun proto
 int MakesCool(int broad_city);
 
+class Base {
+public:
+  Base() {}
+  int VoidIt(int test_it);
+
+private:
+  QString fsafasf_a_;
+}
+
+//////////////////////
+// Class: ClassicClass
+class ClassicClass : public Base {
+public:
+  ClasssicClasss();
+  QStringList *asfsa_;
+
+private:
+  void PrivateStuff(const QString &source);
+}
+
 #endif  // FOO_FOO_H
