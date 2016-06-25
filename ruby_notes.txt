@@ -1,0 +1,3 @@
+# check and print warnings
+ruby -wc filename
+
