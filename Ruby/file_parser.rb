@@ -2,7 +2,7 @@
 # Description: Reads all files in path and creates new style.
 
 FILE_ENDING = ".reformed"
-MODE = :echo
+MODE = :snake_to_camel
 
 class FileChurner
   def initialize
@@ -16,8 +16,35 @@ class FileChurner
     @mode = :echo
   end
   def feed(line)
-    if @mode == :echo
+    case @mode
+    when :echo
       @return_value += line + "\n"
+    when :snake_to_camel
+      # Split the line and keep all spaces
+      line_splits = line.split(/ /)
+      # Modify any words as necessary
+      line_splits.collect! { |word|
+        if word.empty?
+          word
+        else
+          # Remove each underscore and capitalize the next letter
+          word_splits = word.split('_')
+          first_syllable = true
+          word_splits.collect! { |syllable|
+            if first_syllable
+              # leave first word alone
+              first_syllable = false
+              syllable
+            else
+              # Capitalize the first letter
+              syllable.capitalize
+            end
+          }
+          word_splits.join
+        end
+      }
+      # Join the line back up
+      @return_value += line_splits.join(' ') + "\n"
     end
   end
   def retrieve
@@ -55,7 +82,7 @@ if ARGV.length != 2
 end
 
 if ARGV[0].downcase == "depot"
-  ARGV[0] = 'C:\depot\trunk\software\B-series\Second_Try'
+  ARGV[0] = 'C:/depot/trunk/software/B-series/Second_Try'
 end
 
 #ARGV.each_with_index do |a, i|
@@ -64,10 +91,15 @@ end
 
 puts "Processing path #{ARGV[0]} with #{ARGV[1]}"
 # Loop over all files in the directory
-Dir.foreach(ARGV[0]) do |filename|
+Dir.glob(ARGV[0] + '/**/*').each do |filename|
   # Check if directory
   next if filename == '.' || filename == '..'
   next if File.directory? filename
+  next if filename.include? "Archive/"
+  next if filename.include? "Debug/"
+  next if filename.include? "Release/"
+  next if filename.include? "qtserialport/"
+  next if filename.include? "Qtc-ssh-sftp"
   # Clean if necessary
   if ARGV[1].downcase.include? "clean"
     if filename.end_with? FILE_ENDING
