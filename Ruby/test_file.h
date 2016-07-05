@@ -8,7 +8,7 @@ int MakesCool(int broad_city);
 class Base {
 public:
   Base() {}
-  int VoidIt(int test_it);
+  int VoidIt(int test_it, int test_it_too);
 
 private:
   QString fsafasf_a_;
