@@ -4,6 +4,9 @@
 
 #include "test_file.h"
 
+ClassicClass::PrivateStuff() : Padre(parent) {
+
+}
 
 //////////////////////////
 // Name: afsaf sfsf()
