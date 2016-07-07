@@ -2,7 +2,7 @@
 # Description: Reads all files in path and creates new style.
 
 FILE_ENDING = ".reformed"
-MODE = :snake_to_camel
+MODE = :doxygenate
 
 # Add a test for first digit alphanumeric to String class
 class String
@@ -14,21 +14,25 @@ end
 
 class FileChurner
   def initialize
-    #@code = []
-    #@comments = []
+    # @description = []
     @return_value = ''
-    @in_comment = false
-    @in_code_block = 0
-    @in_comment_block = 0
+    # @in_comment = false
+    # @in_code_block = 0
+    # @in_comment_block = 0
     @file_name = ''
+    @in_start_of_file = true
+    # @in_description = false
     @mode = :echo
   end
   def feed(line)
     # Process lines from file based on mode; trailing new line removed
     case @mode
     when :echo
+      # Echo back each line
       @return_value += line + "\n"
     when :snake_to_camel
+      # Look for underscores that are probably in variable names and removed
+      # them while making the next letter capitalized.
       if line.strip.start_with? '#include'
         # Leave included file names alone
         @return_value += line + "\n"
@@ -73,6 +77,30 @@ class FileChurner
       }
       # Join the line back up
       @return_value += line_splits.join(' ') + "\n"
+    when :doxygenate
+      # No longer start of file if we get a non empty non comment line
+      @in_start_of_file = false if !line.empty? && !line.start_with?("//")
+      # Inject Javadoc style comment block after description
+      @return_value += line + "\n"
+      tag = "// Description: "
+      if line.start_with? tag
+        description = line[tag.length..-1]
+        filename = @file_name.split("/").last
+        if @in_start_of_file
+          @return_value += "\n"
+          @return_value += "/** @file #{filename}\n"
+          @return_value += " * @brief #{description}\n"
+          @return_value += " * @details fill_me_in\n"
+          @return_value += " * @copyright Radiometrics Corporation 2014-2016\n"
+          @return_value += " */\n"
+        @return_value += "\n"
+        else
+          @return_value += "\n"
+          @return_value += "/**\n"
+          @return_value += " * @brief #{description}\n"
+          @return_value += " */\n"
+        end
+      end
     end
   end
   def retrieve
@@ -105,12 +133,14 @@ end
 if ARGV.length != 2
   abort( "Error: Invalid syntax!\n" \
     "Please pass directory path or . as first argument\n" \
-    "Please pass 'run', 'clean' or 'permanent' as second argument\n"
+    "Please pass 'run', 'clean' or 'perm' as second argument\n"
   )
 end
 
 if ARGV[0].downcase == "depot"
   ARGV[0] = 'C:/depot/trunk/software/B-series/Second_Try'
+elsif ARGV[0].downcase == "cci"
+  ARGV[0] = 'C:/depot/trunk/software/B-series/Second_Try/CCI'
 end
 
 #ARGV.each_with_index do |a, i|
@@ -140,6 +170,7 @@ Dir.glob(ARGV[0] + '/**/*').each do |filename|
   next unless filename.end_with?(".cpp") \
       || filename.end_with?(".h") \
       || filename.end_with?(".ui")
+  next if (MODE == :doxygenate) && filename.end_with?(".ui")
   # Run if necessary
   if ARGV[1].downcase.include? "run"
     puts 'run: ' + filename
