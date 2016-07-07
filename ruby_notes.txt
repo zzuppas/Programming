@@ -1,3 +1,20 @@
 # check and print warnings
 ruby -wc filename
 
+# RegEx
+# Check first character is '@'; Returns 0 (index) or nil
+'@asfsaf' =~ /\A@/
+# Check first character is '@'; Returns MatchData or nil
+m = '@asfsaf'.match(/\A@/)
+m.length == 1  # true
+m[0] == "@"  # true
+# Find first lowercase letter; Returns 1 (index of first match)
+/[a-z]/ =~ "#ab"
+# Find first word character [a-zA-Z0-9_]; Returns 11
+/\w/ =~ '  $^$#$#$#$asfasf'
+# Find first non-word character; Returns 0
+/\W/ =~ ')K_9asfasf'
+# Find first alphanumeric character; Returns 1
+"@asfasf" =~ /[[:alnum:]]/
+# Find first string of 4 lowercase letters; returns 2
+"b_asfdf" =~ /[a-z]{4}/
