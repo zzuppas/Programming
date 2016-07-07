@@ -4,6 +4,14 @@
 FILE_ENDING = ".reformed"
 MODE = :snake_to_camel
 
+# Add a test for first digit alphanumeric to String class
+class String
+  def wordish?
+    # Returns true if our first character is a-z, A-Z, 0-9 or _
+    (/\w/ =~ self) == 0
+  end
+end
+
 class FileChurner
   def initialize
     #@code = []
@@ -16,15 +24,28 @@ class FileChurner
     @mode = :echo
   end
   def feed(line)
+    # Process lines from file based on mode; trailing new line removed
     case @mode
     when :echo
       @return_value += line + "\n"
     when :snake_to_camel
+      if line.strip.start_with? '#include'
+        # Leave included file names alone
+        @return_value += line + "\n"
+        return
+      end
       # Split the line and keep all spaces
       line_splits = line.split(/ /)
       # Modify any words as necessary
       line_splits.collect! { |word|
         if word.empty?
+          # Leave empty word alone
+          word
+        elsif word.include?("__LINE__") \
+          || word.include?("__FILE__") \
+          || word.include?("static_cast") \
+          || word.include?("dynamic_cast")
+          # Leave these words alone
           word
         else
           # Remove each underscore and capitalize the next letter
@@ -32,12 +53,19 @@ class FileChurner
           first_syllable = true
           word_splits.collect! { |syllable|
             if first_syllable
-              # leave first word alone
+              # Leave first syllable alone
               first_syllable = false
               syllable
+            elsif syllable.length == 0
+              # Leave empty syllable alone
+              syllable
+            elsif syllable[0].wordish? && syllable[0] == syllable[0].upcase
+              # Keep underscore if syllable is already uppercase alphanumeric
+              # (e.g. CONST_DEF and not (test_))
+              "_" + syllable
             else
-              # Capitalize the first letter
-              syllable.capitalize
+              # Capitalize the first letter and leave other letters alone
+              syllable[0].upcase + syllable[1..-1]
             end
           }
           word_splits.join
@@ -109,7 +137,9 @@ Dir.glob(ARGV[0] + '/**/*').each do |filename|
     end
   end
   # Check if CPP source file
-  next unless filename.end_with?(".cpp") || filename.end_with?(".h")
+  next unless filename.end_with?(".cpp") \
+      || filename.end_with?(".h") \
+      || filename.end_with?(".ui")
   # Run if necessary
   if ARGV[1].downcase.include? "run"
     puts 'run: ' + filename
