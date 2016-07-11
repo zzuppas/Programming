@@ -1,0 +1,26 @@
+hg version
+hg help init
+hg init --help
+hg clone http://...
+hg log
+hg status
+hg diff
+hg commit -m "message"
+hg add
+
+// hg pull && hg update
+hg pull -u
+
+// Display the changeset we just created
+hg tip -vp
+
+// Show what changes exist in the pull
+hg incoming
+
+// Find out what revision the working directory is at
+hg parents
+
+hg outgoing
+
+// Push but do not update the remote repository
+hg push
