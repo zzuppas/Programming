@@ -11,7 +11,8 @@ hg add
 // hg pull && hg update
 hg pull -u
 
-// Display the changeset we just created
+// Display the changeset we just created.
+// The tip is the changeset added to the repository most recently.
 hg tip -vp
 
 // Show what changes exist in the pull
@@ -24,3 +25,9 @@ hg outgoing
 
 // Push but do not update the remote repository
 hg push
+
+// List the heads of the current repository
+hg heads
+
+// Incorporate the changes from the tip into your local changes
+hg merge
