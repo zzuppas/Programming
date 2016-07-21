@@ -35,3 +35,4 @@ git log --graph
 git rebase master
 git status -s
 
+git remote -v
