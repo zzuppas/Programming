@@ -36,3 +36,10 @@ git rebase master
 git status -s
 
 git remote -v
+git branch -a
+git reset --hard
+git reset file_name
+git fetch -p
+
+// Delete a remote branch (after deleting local branch)
+git push origin :your_branch
