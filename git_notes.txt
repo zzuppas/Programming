@@ -46,3 +46,8 @@ git push origin :your_branch
 
 // Change last commit message (local, before push)
 git commit --amend
+
+// To checkout a branch that does not exist locally (e.g. git branch -r shows origin/a_branch)
+git checkout a_branch
+
+
