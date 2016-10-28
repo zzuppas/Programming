@@ -50,4 +50,9 @@ git commit --amend
 // To checkout a branch that does not exist locally (e.g. git branch -r shows origin/a_branch)
 git checkout a_branch
 
-
+// To check what untracked files would be deleted (-f is for force)
+git clean -f -n
+// To delete untracked files
+git clean -f
+// To delete untracked directories
+git clean -f -d
