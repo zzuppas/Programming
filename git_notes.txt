@@ -56,3 +56,9 @@ git clean -f -n
 git clean -f
 // To delete untracked directories
 git clean -f -d
+
+// View remote branches
+git branch -r
+// If a remote branch isn't showing up
+git remote update
+
