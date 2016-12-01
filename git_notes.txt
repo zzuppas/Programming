@@ -62,3 +62,4 @@ git branch -r
 // If a remote branch isn't showing up
 git remote update
 
+git diff --stat
